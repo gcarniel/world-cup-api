@@ -1,11 +1,7 @@
-import Router from '@koa/router'
+import Router from '@koa/router';
+import * as users from './app/users/index.js';
 
-export const router = new Router()
+export const router = new Router();
 
-router.get('/', async ctx => {
-  ctx.body = {
-    name: 'dunha',
-    email: 'dunha@email'
-  }
-})
-
+router.post('/users', users.create);
+router.get('/users', users.get);
