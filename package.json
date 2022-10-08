@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node server.js"
+    "dev": "node -r dotenv-safe/config server.js"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
@@ -21,6 +21,8 @@
     "@prisma/client": "^4.4.0",
     "bcrypt": "^5.1.0",
     "date-fns": "^2.29.3",
+    "dotenv-safe": "^8.2.0",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0"
   },

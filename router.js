@@ -11,6 +11,7 @@ router.post('/users', users.create);
 router.get('/users', users.get);
 router.delete('/users', users.remove);
 router.put('/users', users.update);
+router.get('/login', users.login);
 
 // PALPITES
 router.post('/hunches', hunches.create);

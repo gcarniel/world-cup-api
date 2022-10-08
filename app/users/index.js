@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
@@ -70,5 +71,41 @@ export const get = async (ctx) => {
     console.error(error);
     ctx.body = error;
     ctx.status = 500;
+  }
+};
+
+export const login = async (ctx) => {
+  const [type, token] = ctx.headers.authorization.split(' ');
+  const [email, passwordHash] = atob(token).split(':');
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) return (ctx.status = 404);
+
+    const passwordMatch = await bcrypt.compare(passwordHash, user.password);
+
+    if (!passwordMatch) {
+      return (ctx.status = 404);
+    }
+
+    const { password, ...dataUser } = user;
+
+    const jwtToken = jwt.sign(
+      {
+        sub: user.id,
+        name: user.name,
+      },
+      process.env.JWT_SECRET,
+    );
+
+    ctx.body = {
+      user: dataUser,
+      accessToken: jwtToken,
+    };
+  } catch (error) {
+    console.error('Login: ' + error);
   }
 };
