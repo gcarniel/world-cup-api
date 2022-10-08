@@ -95,10 +95,10 @@ export const login = async (ctx) => {
 
     const jwtToken = jwt.sign(
       {
-        sub: user.id,
-        name: user.name,
+        data: { sub: user.id, name: user.name },
       },
       process.env.JWT_SECRET,
+      { expiresIn: '7d' },
     );
 
     ctx.body = {

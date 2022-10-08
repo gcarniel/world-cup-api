@@ -1,7 +1,19 @@
+import jwt from 'jsonwebtoken';
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export const create = async (ctx) => {
+  if (!ctx.headers.authorization) return (ctx.status = 401);
+
+  const [type, token] = ctx.headers.authorization.split(' ');
+  let decoded = '';
+
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+  } catch (error) {
+    return (ctx.status = 401);
+  }
+
   if (!ctx.request.body.homeTeamScore && !ctx.request.body.awayTeamScore) {
     return (ctx.status = 400);
   }
@@ -11,7 +23,7 @@ export const create = async (ctx) => {
   const awayTeamScore = parseInt(ctx.request.body.awayTeamScore);
 
   try {
-    const userId = 'cl8xulnx90000rmr06arg9uej';
+    const userId = decoded.data.id;
 
     const existHunch = await prisma.hunch.findFirst({
       where: { userId, gameId },
@@ -26,8 +38,6 @@ export const create = async (ctx) => {
         },
       }));
     }
-
-    console.log({ existHunch });
 
     return (ctx.body = await prisma.hunch.create({
       data: {
