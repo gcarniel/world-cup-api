@@ -23,7 +23,7 @@ export const create = async (ctx) => {
   const awayTeamScore = parseInt(ctx.request.body.awayTeamScore);
 
   try {
-    const userId = decoded.data.id;
+    const userId = decoded.data.sub;
 
     const existHunch = await prisma.hunch.findFirst({
       where: { userId, gameId },
@@ -51,5 +51,25 @@ export const create = async (ctx) => {
     console.error('Erro ao criar palpite: ', error);
     ctx.body = error;
     ctx.status = 500;
+  }
+};
+
+export const get = async (ctx) => {
+  const username = ctx.request.params.username;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { username },
+    });
+
+    if (!user) return (ctx.status = 404);
+
+    const hunches = await prisma.hunch.findMany({
+      where: { userId: user.id },
+    });
+
+    ctx.body = hunches;
+  } catch (error) {
+    console.error(error);
   }
 };

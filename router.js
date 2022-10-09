@@ -15,6 +15,7 @@ router.get('/login', users.login);
 
 // PALPITES
 router.post('/hunches', hunches.create);
+router.get('/hunches/:username', hunches.get);
 
 // JOGOS
 router.get('/games', games.get);
