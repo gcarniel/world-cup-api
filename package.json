@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "vercel-build": "yarn global add node-gyp",
     "dev": "node -r dotenv-safe/config api/index.js"
   },
   "prisma": {
