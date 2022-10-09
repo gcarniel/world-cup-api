@@ -109,3 +109,26 @@ export const login = async (ctx) => {
     console.error('Login: ' + error);
   }
 };
+
+export const hunches = async (ctx) => {
+  const username = ctx.request.params.username;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { username },
+    });
+
+    if (!user) return (ctx.status = 404);
+
+    const hunches = await prisma.hunch.findMany({
+      where: { userId: user.id },
+    });
+
+    ctx.body = {
+      name: user.name,
+      hunches,
+    };
+  } catch (error) {
+    console.error(error);
+  }
+};
