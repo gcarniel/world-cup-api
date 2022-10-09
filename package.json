@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "vercel-build": "yarn global add node-gyp",
     "dev": "node -r dotenv-safe/config api/index.js"
   },
   "prisma": {
@@ -20,7 +19,7 @@
     "@koa/cors": "^3.4.2",
     "@koa/router": "^12.0.0",
     "@prisma/client": "^4.4.0",
-    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
     "date-fns": "^2.29.3",
     "dotenv-safe": "^8.2.0",
     "jsonwebtoken": "^8.5.1",
