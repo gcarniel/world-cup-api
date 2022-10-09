@@ -1,11 +1,11 @@
 {
   "name": "world-cup-api",
   "version": "0.0.1",
-  "main": "server.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node -r dotenv-safe/config server.js"
+    "dev": "node -r dotenv-safe/config api/index.js"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
